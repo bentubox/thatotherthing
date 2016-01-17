@@ -3,9 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MyDataTypes;
 using ProjectOther.States;
+using ProjectOther.Util;
 using System.Collections.Generic;
-using System.IO;
-using System.Xml.Serialization;
 
 namespace ProjectOther
 {
@@ -17,6 +16,9 @@ namespace ProjectOther
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        //Game settings.
+        Configuration config;
+
         //Keyboard states used to track keyboard button press
         KeyboardState currentKeyboardState;
         KeyboardState lastKeyboardState;
@@ -25,7 +27,7 @@ namespace ProjectOther
         MouseState currentMouseState;
         MouseState previousMouseState;
 
-        //Variable used to count and display FPS.
+        //Variables used to count and display FPS.
         SpriteFont font;
         bool showFPS;
         int totalFrames = 0;
@@ -75,11 +77,7 @@ namespace ProjectOther
             loadSeq.addSlide(this.Content.Load<Texture2D>("Screens/other"));
             stateManager.push(loadSeq);
 
-            //Load settings from file.
-            XmlSerializer serializer = new XmlSerializer(typeof(Configuration));
-            StreamReader reader = new StreamReader("Content/config.xml");
-            Configuration config = (Configuration)serializer.Deserialize(reader);
-            reader.Close();
+           config = Utils.loadConfig();
 
             this.IsFixedTimeStep = true;
             this.graphics.SynchronizeWithVerticalRetrace = true;
@@ -139,12 +137,13 @@ namespace ProjectOther
             //Tell current game state to update given current state of input.
             if (lastKeyboardState.GetPressedKeys().Length > 0)
             {
-                if (currentKeyboardState.IsKeyDown(Keys.F1))
+                if (currentKeyboardState.IsKeyDown((Keys)System.Enum.Parse(typeof(Keys), config.fpsToggle)))
                 {
                     showFPS = !showFPS;
                 }
-                stateManager.update(currentKeyboardState);
             }
+            stateManager.update(currentKeyboardState);
+
             lastKeyboardState = currentKeyboardState;
            
             elapsedTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;

@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Timers;
 using Microsoft.Xna.Framework;
+using MyDataTypes;
+using ProjectOther.Util;
 
 namespace ProjectOther.States
 {
@@ -24,22 +26,16 @@ namespace ProjectOther.States
         //Image queue to iterate through.
         Queue<Texture2D> slides;
 
+        //Game settings.
+        Configuration config;
+
         public SlideShowState()
         {
             this.skippable = true;
             this.timePerSlide = 300;
             Timer slideTimer = new Timer(timePerSlide);
             slideTimer.Elapsed += OnTimedEvent;
-        }
-
-        private void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
-        {
-            this.slides.Dequeue();
-            //Remove the Slide Show State if it is out of images.
-            if (this.slides.Count == 0)
-            {
-                myManager.pop();
-            }
+            config = Utils.loadConfig();
         }
 
         public SlideShowState(Queue<Texture2D> s, Boolean skip, int duration)
@@ -51,6 +47,17 @@ namespace ProjectOther.States
             {
                 Timer slideTimer = new Timer(timePerSlide);
                 slideTimer.Elapsed += OnTimedEvent;
+            }
+            config = Utils.loadConfig();
+        }
+
+        private void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
+        {
+            this.slides.Dequeue();
+            //Remove the Slide Show State if it is out of images.
+            if (this.slides.Count == 0)
+            {
+                myManager.pop();
             }
         }
 

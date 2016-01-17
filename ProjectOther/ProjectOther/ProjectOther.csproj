@@ -56,6 +56,7 @@
     <Compile Include="States\State.cs" />
     <Compile Include="States\StateManager.cs" />
     <Compile Include="States\TitleState.cs" />
+    <Compile Include="Util\Utils.cs" />
     <Compile Include="World\Event.cs" />
     <Compile Include="World\Node.cs" />
     <Compile Include="World\World.cs" />
@@ -72,6 +73,7 @@
   <ItemGroup>
     <None Include="Content\config.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <Content Include="Icon.ico" />
     <None Include="Content\Orator.spritefont">
@@ -79,14 +81,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <MonoGameContentReference Include="Content\Content.mgcb" />
+    <MonoGameContentReference Include="Content\Content.mgcb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </MonoGameContentReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Util\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\MyDataTypes\MyDataTypes.csproj">
       <Project>{af3f16b1-07f8-4b21-a2a8-36f5cb42c7cd}</Project>
